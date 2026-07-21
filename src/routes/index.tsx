@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import heroImg from "@/assets/hero-clim.jpg";
-import techImg from "@/assets/tech-install.jpg";
-import guideGainable from "@/assets/guide-gainable.jpg";
-import guideReversible from "@/assets/guide-reversible.jpg";
-import guideSansUnite from "@/assets/guide-sansunite.jpg";
+import heroImg from "../assets/hero-clim.jpg";
+import techImg from "../assets/tech-install.jpg";
+import guideGainable from "../assets/guide-gainable.jpg";
+import guideReversible from "../assets/guide-reversible.jpg";
+import guideSansUnite from "../assets/guide-sansunite.jpg";
 
 export const Route = createFileRoute("/")({
   component: Index,
