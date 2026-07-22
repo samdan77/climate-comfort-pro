@@ -183,7 +183,7 @@ function ValueProps() {
   return (
     <section className="container-page py-24">
       <div className="max-w-2xl">
-        <SectionEyebrow>Pourquoi FrescaLine</SectionEyebrow>
+        <SectionEyebrow>Pourquoi ClimConfort</SectionEyebrow>
         <h2 className="mt-3 text-4xl sm:text-5xl text-ink text-balance">
           Une mise en relation exigeante, <span className="italic text-primary">pas un annuaire.</span>
         </h2>
@@ -511,7 +511,7 @@ function Footer() {
       </div>
       <div className="border-t border-border">
         <div className="container-page py-6 flex flex-wrap items-center justify-between gap-4 text-xs text-muted-foreground">
-          <span>© {new Date().getFullYear()} FrescaLine. Tous droits réservés.</span>
+          <span>© {new Date().getFullYear()} ClimConfort. Tous droits réservés.</span>
           <span>Made with fresh air in Paris.</span>
         </div>
       </div>

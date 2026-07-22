@@ -77,14 +77,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "FrescaLine — Devis climatisation gratuits en 48h" },
+      { title: "ClimConfort — Devis climatisation gratuits en 48h" },
       {
         name: "description",
         content:
           "Comparez jusqu'à 3 devis d'installateurs climatisation certifiés RGE près de chez vous. Service gratuit, sans engagement, réponse sous 48h.",
       },
-      { name: "author", content: "FrescaLine" },
-      { property: "og:title", content: "FrescaLine — Devis climatisation gratuits" },
+      { name: "author", content: "ClimConfort" },
+      { property: "og:title", content: "ClimConfort — Devis climatisation gratuits" },
       {
         property: "og:description",
         content: "3 devis d'installateurs certifiés RGE, gratuits et sans engagement.",
