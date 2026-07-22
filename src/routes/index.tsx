@@ -497,7 +497,7 @@ function Footer() {
           <a href="#" className="flex items-center gap-2">
             <Snowflake className="h-6 w-6 text-primary" />
             <span className="font-display text-2xl">
-              Fresca<span className="text-primary">Line</span>
+              Clim<span className="text-primary">Confort</span>
             </span>
           </a>
           <p className="mt-4 text-sm text-muted-foreground max-w-xs">
