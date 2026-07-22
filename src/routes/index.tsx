@@ -38,7 +38,7 @@ function Header() {
         <a href="#" className="flex items-center gap-2">
           <Snowflake className="h-6 w-6 text-primary" />
           <span className="font-display text-2xl tracking-tight">
-            Fresca<span className="text-primary">Line</span>
+            Clim<span className="text-primary">Confort</span>
           </span>
         </a>
         <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
