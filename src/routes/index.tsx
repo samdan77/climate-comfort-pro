@@ -48,7 +48,7 @@ function Header() {
           <a href="#pro" className="hover:text-foreground transition">Espace pro</a>
         </nav>
         <a
-          href="#devis"
+          href="/devis"
           className="inline-flex items-center gap-2 rounded-full bg-ember px-5 py-2.5 text-sm font-medium text-ember-foreground shadow-ember hover:brightness-110 transition"
         >
           Mes devis gratuits
@@ -84,7 +84,7 @@ function Hero() {
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <a
-              href="#devis"
+              href="/devis"
               className="group inline-flex items-center gap-2 rounded-full bg-ember px-7 py-4 text-base font-medium text-ember-foreground shadow-ember hover:brightness-110 transition"
             >
               Comparer 3 devis gratuits
@@ -228,7 +228,7 @@ function Process() {
               qu'attendent aujourd'hui les propriétaires exigeants.
             </p>
             <a
-              href="#devis"
+              href="/devis"
               className="mt-8 inline-flex items-center gap-2 rounded-full bg-ember px-6 py-3 text-sm font-medium text-ember-foreground shadow-ember hover:brightness-110 transition"
             >
               Démarrer maintenant <ArrowRight className="h-4 w-4" />
@@ -470,7 +470,7 @@ function FinalCta() {
           </div>
           <div className="flex flex-col gap-3">
             <a
-              href="#"
+              href="/devis"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-ember px-8 py-5 text-base font-medium text-ember-foreground shadow-ember hover:brightness-110 transition"
             >
               Obtenir mes devis <ArrowRight className="h-4 w-4" />
