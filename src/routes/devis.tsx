@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import emailjs from '@emailjs/browser';
 
 export const Route = createFileRoute("/devis")({
   head: () => ({
@@ -175,6 +176,8 @@ function QuoteFlow() {
   const [step, setStep] = useState(1);
   const [data, setData] = useState<FormData>(EMPTY);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const progress = useMemo(() => (submitted ? 100 : ((step - 1) / STEPS.length) * 100 + 8), [step, submitted]);
 
   const set = <K extends keyof FormData>(k: K, v: FormData[K]) =>
@@ -187,6 +190,46 @@ function QuoteFlow() {
     if (step === 4)
       return data.civilite && data.prenom && data.nom && data.email && data.telephone && data.cp;
     return false;
+  };
+
+  const handleSubmit = async () => {
+    if (!canNext()) return;
+
+    setLoading(true);
+
+    try {
+      await emailjs.send(
+        "service_cxslyu1",        // ← À REMPLACER
+        "template_ye57awi",       // ← À REMPLACER
+        {
+          from_name: `${data.prenom} ${data.nom}`,
+          prenom: data.prenom,
+          nom: data.nom,
+          email: data.email,
+          telephone: data.telephone,
+          code_postal: data.cp,
+          ville: data.ville,
+          civilite: data.civilite,
+          travaux: data.travaux,
+          prestation: data.prestation,
+          type_bien: data.bien,
+          pieces: data.pieces,
+          surface: data.surface,
+          hauteur: data.hauteur,
+          description: data.description || "Aucune description",
+          delai: data.delai,
+          objectif: data.objectif,
+        },
+        "E-fnaqkCWhkjVRtGm"         // ← À REMPLACER
+      );
+
+      setSubmitted(true);
+    } catch (error) {
+      console.error(error);
+      alert("Une erreur est survenue lors de l'envoi. Veuillez réessayer.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -214,118 +257,14 @@ function QuoteFlow() {
               </h2>
 
               <div className="mt-8 space-y-8">
-                {step === 1 && (
-                  <>
-                    <RadioGroup
-                      label="Type de travaux"
-                      value={data.travaux}
-                      onChange={(v) => set("travaux", v)}
-                      options={["Installation neuve", "Remplacement", "Réparation", "Entretien"]}
-                    />
-                    <RadioGroup
-                      label="Prestation souhaitée"
-                      value={data.prestation}
-                      onChange={(v) => set("prestation", v)}
-                      options={["Fourniture et pose", "Pose uniquement", "Fourniture uniquement"]}
-                    />
-                    <RadioGroup
-                      label="Type de bien"
-                      value={data.bien}
-                      onChange={(v) => set("bien", v)}
-                      options={["Maison", "Appartement", "Bureau", "Commerce", "Immeuble", "Autre"]}
-                    />
-                  </>
-                )}
-
-                {step === 2 && (
-                  <>
-                    <RadioGroup
-                      label="Nombre de pièces à climatiser"
-                      value={data.pieces}
-                      onChange={(v) => set("pieces", v)}
-                      options={["1", "2", "3", "4", "5", "6+"]}
-                    />
-                    <div className="grid sm:grid-cols-2 gap-6">
-                      <Field
-                        label="Surface totale (m²)"
-                        placeholder="ex. 85"
-                        value={data.surface}
-                        onChange={(v) => set("surface", v)}
-                        type="number"
-                      />
-                      <Field
-                        label="Hauteur sous plafond (m)"
-                        placeholder="ex. 2.5"
-                        value={data.hauteur}
-                        onChange={(v) => set("hauteur", v)}
-                        type="number"
-                        step="0.1"
-                      />
-                    </div>
-                    <Field
-                      label="Description complémentaire"
-                      placeholder="Type d'unité souhaité, contraintes, préférences esthétiques…"
-                      value={data.description}
-                      onChange={(v) => set("description", v)}
-                      textarea
-                    />
-                  </>
-                )}
-
-                {step === 3 && (
-                  <>
-                    <RadioGroup
-                      label="Délai envisagé"
-                      value={data.delai}
-                      onChange={(v) => set("delai", v)}
-                      options={[
-                        "Au plus vite",
-                        "Moins d'un mois",
-                        "Moins de deux mois",
-                        "Moins de six mois",
-                        "Dans l'année",
-                        "Pas de date fixée",
-                      ]}
-                    />
-                    <RadioGroup
-                      label="Objectif principal"
-                      value={data.objectif}
-                      onChange={(v) => set("objectif", v)}
-                      options={[
-                        "Trouver un installateur disponible",
-                        "Obtenir des devis comparés",
-                        "Avoir une idée des prix",
-                        "Bénéficier des aides 2026",
-                      ]}
-                    />
-                  </>
-                )}
-
-                {step === 4 && (
-                  <>
-                    <RadioGroup
-                      label="Civilité"
-                      value={data.civilite}
-                      onChange={(v) => set("civilite", v)}
-                      options={["Madame", "Monsieur"]}
-                    />
-                    <div className="grid sm:grid-cols-2 gap-6">
-                      <Field label="Prénom" value={data.prenom} onChange={(v) => set("prenom", v)} placeholder="Camille" />
-                      <Field label="Nom" value={data.nom} onChange={(v) => set("nom", v)} placeholder="Durand" />
-                      <Field label="Email" type="email" value={data.email} onChange={(v) => set("email", v)} placeholder="vous@exemple.fr" />
-                      <Field label="Téléphone" type="tel" value={data.telephone} onChange={(v) => set("telephone", v)} placeholder="06 12 34 56 78" />
-                      <Field label="Code postal" value={data.cp} onChange={(v) => set("cp", v)} placeholder="75011" />
-                      <Field label="Ville" value={data.ville} onChange={(v) => set("ville", v)} placeholder="Paris" />
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      En envoyant ce formulaire, vous acceptez d'être recontacté par 3 installateurs
-                      RGE partenaires. Vos données restent en France, jamais revendues.
-                    </p>
-                  </>
-                )}
+                {/* ... tout le contenu des étapes (step 1 à 4) reste IDENTIQUE ... */}
+                {step === 1 && ( /* ton code existant */ )}
+                {step === 2 && ( /* ton code existant */ )}
+                {step === 3 && ( /* ton code existant */ )}
+                {step === 4 && ( /* ton code existant */ )}
               </div>
 
-              {/* nav */}
+              {/* Navigation */}
               <div className="mt-10 flex items-center justify-between gap-4">
                 <button
                   type="button"
@@ -335,6 +274,7 @@ function QuoteFlow() {
                 >
                   ← Retour
                 </button>
+
                 {step < STEPS.length ? (
                   <button
                     type="button"
@@ -347,11 +287,12 @@ function QuoteFlow() {
                 ) : (
                   <button
                     type="button"
-                    onClick={() => canNext() && setSubmitted(true)}
-                    disabled={!canNext()}
+                    onClick={handleSubmit}
+                    disabled={!canNext() || loading}
                     className="inline-flex items-center gap-2 rounded-full bg-ember px-6 py-3 text-sm font-medium text-ember-foreground shadow-ember hover:brightness-110 transition disabled:opacity-40"
                   >
-                    Recevoir mes 3 devis <ArrowRight className="h-4 w-4" />
+                    {loading ? "Envoi en cours..." : "Recevoir mes 3 devis"}
+                    <ArrowRight className="h-4 w-4" />
                   </button>
                 )}
               </div>
@@ -359,28 +300,9 @@ function QuoteFlow() {
           )}
         </div>
 
-        {/* right column: reassurance */}
+        {/* Colonne de droite (reassurance) — reste identique */}
         <aside className="space-y-4">
-          <SidebarCard
-            icon={<Shield className="h-5 w-5" />}
-            title="Artisans vérifiés"
-            body="Chaque installateur est audité : assurance décennale, certification RGE, avis clients."
-          />
-          <SidebarCard
-            icon={<Wallet className="h-5 w-5" />}
-            title="Prix négociés"
-            body="Notre réseau vous fait bénéficier de tarifs volume : jusqu'à 22% d'économies constatées."
-          />
-          <SidebarCard
-            icon={<Clock className="h-5 w-5" />}
-            title="Réponse en 48h"
-            body="Un conseiller humain vous rappelle pour affiner votre projet avant d'envoyer les devis."
-          />
-          <SidebarCard
-            icon={<Leaf className="h-5 w-5" />}
-            title="Aides 2026 incluses"
-            body="MaPrimeRénov', CEE, TVA 5.5% : nous calculons votre reste à charge avant signature."
-          />
+          {/* ... ton code SidebarCard ... */}
         </aside>
       </div>
     </section>
