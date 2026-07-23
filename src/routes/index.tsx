@@ -45,7 +45,7 @@ function Header() {
           <a href="#process" className="hover:text-foreground transition">Comment ça marche</a>
           <a href="#guides" className="hover:text-foreground transition">Guides</a>
           <a href="#faq" className="hover:text-foreground transition">FAQ</a>
-          <a href="#pro" className="hover:text-foreground transition">Espace pro</a>
+          <a href="/espace-pro" className="hover:text-foreground transition">Espace pro</a>
         </nav>
         <a
           href="/devis"

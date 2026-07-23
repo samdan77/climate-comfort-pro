@@ -9,9 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as EspaceProRouteImport } from './routes/espace-pro'
 import { Route as DevisRouteImport } from './routes/devis'
 import { Route as IndexRouteImport } from './routes/index'
 
+const EspaceProRoute = EspaceProRouteImport.update({
+  id: '/espace-pro',
+  path: '/espace-pro',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DevisRoute = DevisRouteImport.update({
   id: '/devis',
   path: '/devis',
@@ -26,31 +32,42 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/devis': typeof DevisRoute
+  '/espace-pro': typeof EspaceProRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/devis': typeof DevisRoute
+  '/espace-pro': typeof EspaceProRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/devis': typeof DevisRoute
+  '/espace-pro': typeof EspaceProRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/devis'
+  fullPaths: '/' | '/devis' | '/espace-pro'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/devis'
-  id: '__root__' | '/' | '/devis'
+  to: '/' | '/devis' | '/espace-pro'
+  id: '__root__' | '/' | '/devis' | '/espace-pro'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DevisRoute: typeof DevisRoute
+  EspaceProRoute: typeof EspaceProRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/espace-pro': {
+      id: '/espace-pro'
+      path: '/espace-pro'
+      fullPath: '/espace-pro'
+      preLoaderRoute: typeof EspaceProRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/devis': {
       id: '/devis'
       path: '/devis'
@@ -71,6 +88,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DevisRoute: DevisRoute,
+  EspaceProRoute: EspaceProRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
